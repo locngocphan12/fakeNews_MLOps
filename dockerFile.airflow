@@ -1,0 +1,15 @@
+# Base image
+FROM apache/airflow:2.7.1-python3.10
+
+# Cài các thư viện ML cần thiết
+USER root
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libgl1-mesa-glx \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt /requirements.txt
+RUN pip install --no-cache-dir -r /requirements.txt
+
+USER airflow
